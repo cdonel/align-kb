@@ -1,0 +1,12 @@
+# workflow/envs/align-kb.yaml
+name: align-kb
+
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+
+dependencies:
+  - snakemake
+  - pandas
+  - kb-python

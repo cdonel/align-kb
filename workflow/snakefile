@@ -1,0 +1,49 @@
+import os
+import pandas as pd
+
+
+# Snakefile for the pseudoalignment align-kb workflow.
+# Test: snakemake --cores 4 --use-conda --configfile "test/config.yaml"
+# User: snakemake --cores 4 --use-conda --config META="yourpath/meta.csv"
+
+
+# Command to generate DAG SVG:
+# snakemake --configfile="test/config.yaml" --dag | dot -Tsvg > test/docs/dag.svg
+
+# Command to generate file graph SVG:
+# snakemake --configfile="test/config.yaml" --filegraph | dot -Tsvg > test/docs/filegraph.svg
+
+
+# Default, overridable from the command line
+configfile: "config/config.yaml"
+META = config.get("META", "meta.csv")
+INDIR = config.get("INDIR", "../data")
+OUTDIR = config.get("OUTDIR", "../results")
+
+
+# Read in meta.csv containing information on SRA runs.
+# Set up lists of runs, biosamples, and genotypes for use in the workflow.
+meta = pd.read_csv(META, dtype=str)
+run = meta['Run']  # Example: SRR1234567
+biosample = meta['BioSample']  # Example: SAMN12345678
+genotype = meta['genotype']    # Example: WT, KO, etc.
+
+
+# Set up a list of target files for the workflow.
+targets = [
+    OUTDIR + f"/{g}/{b}/{r}/{r}/counts_filtered/adata.h5ad"
+    for g, b, r in zip(genotype, biosample, run)
+]
+
+
+# Define the default rule to build all targets.
+rule all:
+    input:
+        targets
+
+
+# Include the rules for building the reference index and aligning to the index.
+include: "rules/ref_index.smk"
+include: "rules/align_kb.smk"
+
+
