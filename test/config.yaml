@@ -1,4 +1,4 @@
 # test/config.yaml
 META: "test/data/meta.csv"
 INDIR: "test/data"
-OUTDIR: "test/results"
+OUTDIR: "test/results/align-kb"
