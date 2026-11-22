@@ -1,3 +1,4 @@
 #config/config.yaml
 META: "meta.csv"
+INDIR: "../results/sra-meta-fetch"
 OUTDIR: "../results/align-kb"
