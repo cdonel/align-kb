@@ -8,17 +8,17 @@ import pandas as pd
 
 
 # Command to generate DAG SVG:
-# snakemake --configfile="test/config.yaml" --dag | dot -Tsvg > test/docs/dag.svg
+# snakemake --configfile="test/config.yaml" --dag | dot -Tsvg -Gsize="4,4!" > test/docs/dag.svg
 
 # Command to generate file graph SVG:
-# snakemake --configfile="test/config.yaml" --filegraph | dot -Tsvg > test/docs/filegraph.svg
+# snakemake --configfile="test/config.yaml" --filegraph | dot -Tsvg -Gsize="4,4!" > test/docs/filegraph.svg
 
 
 # Default, overridable from the command line
 configfile: "config/config.yaml"
 META = config.get("META", "meta.csv")
-INDIR = config.get("INDIR", "../data")
-OUTDIR = config.get("OUTDIR", "../results")
+INDIR = config.get("INDIR", "../results/sra-meta-fetch")
+OUTDIR = config.get("OUTDIR", "../results/align-kb")
 
 
 # Read in meta.csv containing information on SRA runs.
